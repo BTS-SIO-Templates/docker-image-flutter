@@ -9,6 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  IMAGE_NAME: image-flutter
 
 jobs:
   build-and-push:
@@ -39,4 +40,4 @@ jobs:
           context: .
           push: true
           # Syntaxe corrigée ici
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
