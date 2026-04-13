@@ -2,14 +2,9 @@ name: Build and Publish Flutter Image
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'Dockerfile'
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_TAG: ghcr.io/bts-sio-templates/image-flutter:latest
+    branches: [main, master]
+    paths: ['Dockerfile']
+  workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -22,22 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Transforme le nom du dépôt en minuscules pour Docker
-      - name: Lowercase repo name
-        run: |
-          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-flutter" >> $GITHUB_ENV
-
       - name: Log in to the Container registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.PACKAGE_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # Syntaxe corrigée ici
-          tags: ${{ env.IMAGE_NAME }}:latest
+          # Cette ligne garantit que le package aura le NOM EXACT du dépôt
+          # Résultat : ghcr.io/bts-sio-templates/docker-image-flutter:latest
+          tags: ghcr.io/${{ github.repository }}:latest
