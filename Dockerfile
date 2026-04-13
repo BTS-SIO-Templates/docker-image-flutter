@@ -18,4 +18,3 @@ RUN flutter precache --web
 
 # On lance un flutter doctor pour finaliser l'installation
 RUN flutter doctor
-#force rebuild
