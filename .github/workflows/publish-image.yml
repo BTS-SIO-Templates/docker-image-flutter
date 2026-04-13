@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - main
+      - master
     paths:
-      - 'Dockerfile' # L'image ne se reconstruit que si vous modifiez le Dockerfile
+      - 'Dockerfile'
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-flutter
 
 jobs:
   build-and-push:
@@ -21,6 +21,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # Cette étape transforme le nom du dépôt en minuscules
+      - name: Lowercase repo name
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}-flutter" >> $GITHUB_ENV
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
@@ -34,4 +39,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          # On utilise maintenant la variable IMAGE_NAME convertie
+          tags: ${{ env.REGISTRY Brave}}/${{ env.IMAGE_NAME }}:latest
