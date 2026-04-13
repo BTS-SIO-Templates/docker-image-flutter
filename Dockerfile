@@ -16,5 +16,5 @@ USER codespace
 # Pré-téléchargement des artefacts pour le Web (pour éviter de le faire au lancement du Codespace)
 RUN flutter precache --web
 
-# Vérification de l'installation
+# Vérification de l'installation 
 RUN flutter doctor
