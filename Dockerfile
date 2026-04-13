@@ -18,3 +18,4 @@ RUN flutter precache --web
 
 # Vérification de l'installation 
 RUN flutter doctor
+# force build
